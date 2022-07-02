@@ -1,3 +1,9 @@
+NUCLEIC_ACIDS = [
+
+]
+
+
+
 class NucleotideSequence (object):
     name = ""
     sequence = ""
