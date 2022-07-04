@@ -56,7 +56,7 @@ def process_fasta_file (filename: str) -> list[NucleotideSequence]:
     
     return sequences
 
-def generate_fasta_chunks (file: str) -> dict:
+def generate_fasta_chunks (file: str) -> dict[str, str]:
     # Read the entire file and then split by ">"
     # ">" is the most commonly used delimiter for FASTA files
     # Remove empty strings (and new line characters) in list
