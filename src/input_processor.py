@@ -36,46 +36,48 @@ def process_fasta_file (filename: str) -> list[NucleotideSequence]:
     # Filter out comments
     raw = remove_comments(raw)
 
-
-
-    # Read the entire file and then split by ">"
-    # ">" is the most commonly used delimiter for FASTA files
-    # Remove empty strings (and new line characters) in list
-    raw = list(filter(
-        lambda line: (line and line != '\n'), 
-        raw.split('>')
-    ))
-
-    # Split each string "chunk" between name and sequence
-    # First line will always be the name/description and all following will be
-    # the nucleotide (or amino acid) sequence
-    raw = list(map(
-        lambda fasta_chunk: 
-            [
-                # Name (first line only)
-                fasta_chunk.split('\n')[0], 
-                # Sequence (every subsequent line)
-                ''.join(fasta_chunk.split('\n')[1:])
-            ],
-        raw
-    ))
+    # Generate FASTA chunks
+    raw = generate_fasta_chunks(raw)
 
     # Generate nucleotide sequence classes
     sequences = list(map(
-        lambda fasta_chunk:
+        lambda key_value:
             # Name, sequence, and whether the sequence is an amino acid
             # (.faa is the only file extension for amino acid sequences)
             # Amino acid sequences must be converted to nucleotide sequences
             # before the reverse complement is computed
             NucleotideSequence(
-                name=fasta_chunk[0], 
-                sequence=fasta_chunk[1], 
+                name=key_value[0], 
+                sequence=key_value[1],
                 amino_acid=(process_file_ext(filename) == '.faa')
             ),
-        raw
+        raw.items()
     ))
     
     return sequences
+
+def generate_fasta_chunks (file: str) -> dict:
+    # Read the entire file and then split by ">"
+    # ">" is the most commonly used delimiter for FASTA files
+    # Remove empty strings (and new line characters) in list
+    file = list(filter(
+        lambda line: (line and line != '\n'), 
+        file.split('>')
+    ))
+
+    # Split each string "chunk" between name and sequence
+    # First line will always be the name/description and all following will be
+    # the nucleotide (or amino acid) sequence
+    return dict(map(
+        lambda fasta_chunk: 
+            (
+                # Name (first line only)
+                fasta_chunk.split('\n')[0], 
+                # Sequence (every subsequent line)
+                ''.join(fasta_chunk.split('\n')[1:])
+            ),
+        file
+    ))
 
 def remove_comments (file: str) -> str:
     # Filter out all comments i.e. new lines starting with a semicolon ";"

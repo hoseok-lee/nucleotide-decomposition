@@ -1,5 +1,5 @@
 # https://arep.med.harvard.edu/labgc/adnan/projects/Utilities/revcomp.html
-COMPLEMENTARY_BASE = \
+COMPL_BASE = \
 {
     # Basic nucleotides for DNA/RNA
     "A": "T",
@@ -29,12 +29,34 @@ COMPLEMENTARY_BASE = \
     "-": "-"
 }
 
+# List of standard bases
+# Uracil will be considered the standard over thymine
+# Appropriate conversions will be done
+STD_BASES = ["A", "C", "G", "U"]
+
+# https://en.wikipedia.org/wiki/FASTA_format#Sequence_representation
+# Thymine and uracil difference and conversion will be done in each object
+SEQ_REPR = \
+{
+    "R": ["A", "G"],
+    "Y": ["C", "U"],
+    "K": ["G", "U"],
+    "M": ["A", "C"],
+    "S": ["C", "G"],
+    "W": ["A", "T"],
+    "B": ["C", "G", "U"],
+    "D": ["A", "G", "U"],
+    "H": ["A", "C", "U"],
+    "V": ["A", "C", "G"],
+    "N": ["A", "C", "G", "U"]
+}
+
 # https://en.wikipedia.org/wiki/DNA_and_RNA_codon_tables#Inverse_RNA_codon_table
 # The nucleotide codon uses the compressed form to avoid creating multiple 
 # sequences over the same amino acid code
 # Arginine, leucine, J-code (leucine/isoleucine), serine, and Z-code (gluatmic
 # acid/glutamine) have been compressed as much as possible by hand
-INVERSE_AMINO_CODON = \
+INV_AMINO_CODON = \
 {
     "A": "GCN",
     "B": "RAY",
