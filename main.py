@@ -9,15 +9,18 @@ from src.nucleotide_sequence import NucleotideSequence
 
 
 if __name__ == "__main__":
-    # Main control loop
-    filename = join(dirname(__file__), "nucleotide-sample.fasta")
+    # Open the file and generate the sequences
+    #filename = join(dirname(__file__), "nucleotide-sample.fasta")
+    filename = join(dirname(__file__), "amino-acid-sample.faa")
     sequences = process_fasta_file(filename)
+
+    # Generate the reverse complements
     reverse_complements = list(map(
         lambda sequence: sequence.reverse_complement(),
         sequences
     ))
 
-
+    # Compute the compositions
     compositions = dict(map(
         lambda sequence: 
             (
