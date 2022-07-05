@@ -1,5 +1,5 @@
 # https://arep.med.harvard.edu/labgc/adnan/projects/Utilities/revcomp.html
-COMPL_BASE = \
+REV_COMP = \
 {
     # Basic nucleotides for DNA/RNA
     "A": "T",
@@ -43,7 +43,7 @@ SEQ_REPR = \
     "K": ["G", "U"],
     "M": ["A", "C"],
     "S": ["C", "G"],
-    "W": ["A", "T"],
+    "W": ["A", "U"],
     "B": ["C", "G", "U"],
     "D": ["A", "G", "U"],
     "H": ["A", "C", "U"],
