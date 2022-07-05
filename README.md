@@ -1,7 +1,13 @@
-To run main program, 
+To run the main program, 
 
 ```
 python main.py input_file output_file [-v]
+```
+
+For help,
+
+```
+python main.py -h
 ```
 
 To run the unit tests,
