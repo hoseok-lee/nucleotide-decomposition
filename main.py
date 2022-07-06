@@ -1,10 +1,10 @@
 import argparse
 from sys import stderr
-from os.path import join, dirname
+from os.path import join, dirname, exists
 
 import altair as alt
 import pandas as pd
-from scipy.spatial.distance import cosine, euclidean
+from scipy.spatial.distance import euclidean
 
 from src.fasta_processor import open_fasta_file, create_fasta_file
 
@@ -26,6 +26,10 @@ if __name__ == "__main__":
     )
     args = vars(parser.parse_args())
     input_filename, output_filename, verbose = args.values()
+
+    # Check if input file exsts
+    if not exists(input_filename):
+        raise FileNotFoundError
 
 
 
