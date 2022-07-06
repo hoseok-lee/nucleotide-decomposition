@@ -47,5 +47,7 @@ class TestNucleotideSequence (unittest.TestCase):
         sequence2 = NucleotideSequence(name="", sequence="NNRYSWNN")
         self.assertEqual(sequence1.composition(), sequence2.composition())
 
+
+
 if __name__ == "__main__":
     unittest.main()

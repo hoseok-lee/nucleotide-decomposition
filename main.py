@@ -1,10 +1,12 @@
 import argparse
+from sys import stderr
 from os.path import join, dirname
+
 import altair as alt
 import pandas as pd
+from scipy.spatial.distance import cosine, euclidean
 
-from src.fasta_processor import open_fasta_file, create_fasta_file, get_file_ext
-from src.nucleotide_sequence import NucleotideSequence
+from src.fasta_processor import open_fasta_file, create_fasta_file
 
 
 
@@ -23,6 +25,14 @@ if __name__ == "__main__":
     args = vars(parser.parse_args())
     input_filename, output_filename, verbose = args.values()
 
+
+
+    '''
+        REVERSE COMPLEMENT AND DECOMPOSITION
+        Open the FASTA file, compute the reverse complement
+        Store the reverse complements in the output file
+        Compute the compositions of the reverse complements
+    '''
     # Open the file and generate the sequences
     input_filename = join(dirname(__file__), input_filename)
     sequences = open_fasta_file(input_filename)
@@ -49,11 +59,10 @@ if __name__ == "__main__":
 
 
 
-    # Compare the first two compositions
-    assert(len(compositions) >= 2)
-
-
-
+    '''
+        GRAPHICAL REPRESENTATION
+        Trellis bar plots with Altair and pandas
+    '''
     # Generate pandas Dataframe
     # Transpose to prepare for melt and add column for the name of sequence
     source = pd.DataFrame(compositions).T
@@ -90,4 +99,26 @@ if __name__ == "__main__":
 
     # Save as HTML
     chart.save('chart.html')
-    #chart.show()
+
+
+
+    '''
+        SEQUENCE COMPOSITION SIMILARITY
+        Cosine similarity and Euclidean distance as a measurement of difference
+    '''
+    # Grab the first two compositions and compute the cosine similarity
+    assert(len(compositions) >= 2)
+    label1, label2 = list(compositions.keys())[:2]
+    data1 = list(compositions[label1].values())
+    data2 = list(compositions[label2].values())
+
+    assert(len(data1) == len(data2))
+    similarity = euclidean(data1, data2)
+
+    # Print result
+    print("Euclidean distance of {:.3f} between \
+        \n\n\t1. \'{}\' \n\t2. \'{}\'\n".format(similarity, label1, label2), 
+        file=stderr)
+    print("The two sequences are {}significantly different."\
+        .format("" if similarity > 0.1 else "not "), 
+        file=stderr)

@@ -1,6 +1,4 @@
-from os import remove
-from sys import stderr
-from os.path import splitext, exists
+from os.path import splitext
 
 from src.nucleotide_sequence import NucleotideSequence
 
@@ -70,9 +68,9 @@ def decode_fasta_chunks (file: str) -> dict[str, str]:
         lambda fasta_chunk: 
             (
                 # Name (first line only)
-                fasta_chunk.split('\n')[0], 
+                fasta_chunk.split('\n')[0].strip(), 
                 # Sequence (every subsequent line)
-                ''.join(fasta_chunk.split('\n')[1:])
+                ''.join(fasta_chunk.split('\n')[1:]).strip()
             ),
         file
     ))
