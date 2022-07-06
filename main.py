@@ -15,7 +15,9 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Given a FASTA file of \
         nucleotide (or amino acid) sequences, compute their reverse \
         complements and graph their composition of nucleotide bases (or amino \
-        acids). Compare the composition of the first two sequences.')
+        acids). Compare the composition of the first two sequences. \
+        Note that in verbose mode, the similarity comparison may be inaccurate \
+        due to the nature of Euclidean distances in higher dimensions.')
     parser.add_argument('input', help='an input FASTA file')
     parser.add_argument('output', help='name for the output FASTA file')
     parser.add_argument('-v', 
